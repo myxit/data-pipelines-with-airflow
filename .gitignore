@@ -197,3 +197,4 @@ pyrightconfig.json
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,python
 .vscode/settings.json
 set_connections.sh
+set_connections_and_variables.sh

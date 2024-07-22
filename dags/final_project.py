@@ -10,8 +10,8 @@ from airflow.models import Variable
 
 S3_BUCKET = Variable.get('s3_bucket')
 S3_PREFIX_SONGS = Variable.get("s3_prefix_songs")
-S3_LOG_SCHEMA = Variable.get("s3_log_schema")
-S3_PREFIX_LOG_DATA = ""
+S3_LOG_SCHEMA = f"s3://{S3_BUCKET}/{Variable.get('s3_log_schema')}"
+S3_PREFIX_LOG_DATA = "log-data/{year}/{month}"
 
 AWS_CREDENTIALS = "aws_credentials"
 REDSHIFT_CONN_ID = "redshift"
