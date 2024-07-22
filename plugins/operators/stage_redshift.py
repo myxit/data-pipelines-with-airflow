@@ -34,7 +34,7 @@ class StageToRedshiftOperator(BaseOperator):
         self.s3_prefix = s3_prefix
         self.table = table
 
-    def execute(self, context):
+    def execute(self, **kwargs):
         redshift = PostgresHook(postgres_conn_id=self.redshift_conn_id)
         metastoreBackend = MetastoreBackend()
         aws_credentials = metastoreBackend.get_connection(self.aws_credentials_id)
@@ -46,8 +46,8 @@ class StageToRedshiftOperator(BaseOperator):
             redshift.run(f"TRUNCATE {self.table}")
 
         # SQL query parameters
-        (exec_year, exec_month) = context.execution_date
-        s3_path = self.s3_prefix.format(exec_year, exec_month)
+        execution_date = kwargs["logical_date"]
+        s3_path = self.s3_prefix.format(execution_date.year, execution_date.month)
         s3_url = f"s3://{self.s3_bucket}/{s3_path}"
 
         formatted_sql = StageToRedshiftOperator.cmd_s3.format(
