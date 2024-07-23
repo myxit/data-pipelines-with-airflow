@@ -8,15 +8,23 @@ class LoadFactOperator(BaseOperator):
 
     @apply_defaults
     def __init__(self,
-                 # Define your operators params (with defaults) here
-                 # Example:
-                 # conn_id = your-connection-name
+                 conn_id="redshift",
+                 do_truncate=False,
+                 sql='',
+                 table='',                 
                  *args, **kwargs):
-
         super(LoadFactOperator, self).__init__(*args, **kwargs)
-        # Map params here
-        # Example:
-        # self.conn_id = conn_id
+        self.conn_id = conn_id
+        self.do_truncate = do_truncate
+        self.sql = sql
+        self.table = table
 
     def execute(self, context):
-        self.log.info('LoadFactOperator not implemented yet')
+        postgres = PostgresHook(postgres_conn_id=self.conn_id)
+        
+        if self.do_truncate:
+            self.log.info(f"Truncate table {self.table}")
+            postgres.run(f"TRUNCATE {self.table}")
+        
+        self.log.info(f"Load fact table {self.table}")
+        # postgres.run(f"INSERT into {self.table} {self.sql}")
