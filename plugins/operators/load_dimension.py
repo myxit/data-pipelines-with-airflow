@@ -28,5 +28,5 @@ class LoadDimensionOperator(BaseOperator):
             postgres.run(f"TRUNCATE {self.table}")
         
         self.log.info(f"Load dimension table {self.table}")
-        # postgres.run(f"INSERT into {self.table} {self.sql}")
+        postgres.run(f"INSERT into {self.table} {self.sql}")
 

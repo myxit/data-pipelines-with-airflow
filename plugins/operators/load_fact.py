@@ -27,4 +27,4 @@ class LoadFactOperator(BaseOperator):
             postgres.run(f"TRUNCATE {self.table}")
         
         self.log.info(f"Load fact table {self.table}")
-        # postgres.run(f"INSERT into {self.table} {self.sql}")
+        postgres.run(f"INSERT into {self.table} {self.sql}")
